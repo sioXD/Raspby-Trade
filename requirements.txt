@@ -1,0 +1,47 @@
+# Stock Market Trading Bot - Core Requirements
+# Installiere mit: pip install -r requirements.txt
+
+# Data & Analysis
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+scipy>=1.11.0
+
+# Data Fetching
+yfinance>=0.2.32
+pandas-datareader>=0.10.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Machine Learning
+tensorflow>=2.13.0
+
+# API & Trading
+alpaca-trade-api>=3.0.0
+
+# Configuration & Environment
+python-dotenv>=1.0.0
+pyyaml>=6.0.0
+
+# Utilities
+requests>=2.31.0
+schedule>=1.2.0
+
+# Notifications (optional)
+python-telegram-bot>=20.3
+
+# Development & Testing
+pytest>=7.4.0
+black>=23.9.0
+pylint>=2.17.0
+
+# Raspberry Pi Optimization Notes:
+# - Für Pi Zero W: Erwägen Sie tensorflow-lite statt tensorflow
+# - Für weniger RAM: numpy==1.21.6, pandas==1.3.5 verwenden
+# - matplotlib ist optional - bei Speicherproblemen auslassen
+
+
+#Was gefehlt hat
+psutil
