@@ -227,7 +227,17 @@ class RaspberryPiTradingBot:
         try:
             # Simplified prediction logic
             # On Raspberry Pi, use cached models instead of training new ones
-            current_price = None  # Get from API
+            # Fetch current price using yfinance as fallback
+            import yfinance as yf
+            try:
+                ticker = yf.Ticker(symbol)
+                current_price = ticker.info.get('currentPrice') or ticker.info.get('regularMarketPrice')
+            except:
+                current_price = None
+            
+            if current_price is None:
+                self.logger.warning(f"Could not fetch current price for {symbol}, skipping prediction")
+                return None
             
             # Simple momentum indicator as fallback
             # Can be replaced with full LSTM on higher-end Pi
@@ -235,7 +245,7 @@ class RaspberryPiTradingBot:
                 'symbol': symbol,
                 'signal': 'bullish',  # or 'bearish'
                 'confidence': 0.65,
-                'predicted_price': current_price * 1.05
+                'predicted_price': float(current_price) * 1.05
             }
         except Exception as e:
             self.logger.warning(f"Error getting prediction for {symbol}: {e}")
