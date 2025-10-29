@@ -8,7 +8,6 @@ import sys
 import time
 import logging
 import schedule
-import yaml
 from datetime import datetime, timedelta
 import pandas as pd
 
@@ -39,15 +38,12 @@ logger = logging.getLogger(__name__)
 class RaspberryPiTradingBot:
     """Main Trading Bot for Raspberry Pi"""
     
-    def __init__(self, config_file='config.yaml'):
+    def __init__(self):
         """
-        Initialize Trading Bot
-        
-        Args:
-            config_file: Path to configuration file
+        Initialize Trading Bot - Konfiguration kommt aus Umgebungsvariablen (.env)
         """
         self.logger = logging.getLogger(__name__)
-        self.config = self.load_config(config_file)
+        self.config = self._get_config_from_env()
         
         # Initialize components
         self.trading_engine = None
@@ -62,19 +58,33 @@ class RaspberryPiTradingBot:
         
         self.logger.info("Trading Bot initialized")
     
-    def load_config(self, config_file):
-        """Load configuration from YAML file"""
+    def _get_config_from_env(self):
+        """Lade Konfiguration aus Umgebungsvariablen (.env)"""
         try:
-            if os.path.exists(config_file):
-                with open(config_file, 'r') as f:
-                    config = yaml.safe_load(f)
-                self.logger.info(f"Configuration loaded from {config_file}")
-                return config
-            else:
-                self.logger.warning(f"Config file {config_file} not found, using defaults")
-                return self._get_default_config()
+            config = {
+                'trading': {
+                    'symbols': env_get('TRADING_SYMBOLS', 'AAPL,GOOGL,MSFT,AMZN').split(','),
+                    'use_paper_trading': env_get('PAPER_TRADING', 'true').lower() == 'true',
+                    'min_confidence': float(env_get('MIN_CONFIDENCE', '0.65')),
+                    'order_type': env_get('ORDER_TYPE', 'market'),
+                },
+                'risk': {
+                    'account_balance': float(env_get('MAX_PORTFOLIO_VALUE', '100000')),
+                    'risk_per_trade': float(env_get('RISK_PER_TRADE', '0.02')),
+                    'max_positions': int(env_get('MAX_POSITIONS', '5')),
+                    'stop_loss_pct': float(env_get('STOP_LOSS_PCT', '0.05')),
+                    'take_profit_pct': float(env_get('TAKE_PROFIT_PCT', '0.10')),
+                    'max_daily_loss_pct': float(env_get('MAX_DAILY_LOSS_PCT', '0.10')),
+                },
+                'notifications': {
+                    'email_enabled': bool(env_get('EMAIL_ADDRESS', '')),
+                    'telegram_enabled': bool(env_get('TELEGRAM_BOT_TOKEN', '')),
+                }
+            }
+            self.logger.info("Configuration loaded from environment variables (.env)")
+            return config
         except Exception as e:
-            self.logger.error(f"Error loading config: {e}")
+            self.logger.error(f"Error loading config from environment: {e}")
             return self._get_default_config()
     
     def _get_default_config(self):
@@ -394,15 +404,13 @@ class RaspberryPiTradingBot:
 
 def main():
     """Main entry point"""
-    # Check for config file
-    config_file = 'config.yaml'
-    if not os.path.exists(config_file):
-        logger.warning(f"Config file {config_file} not found")
-        logger.info("Using default configuration")
-    
-    # Start bot
-    bot = RaspberryPiTradingBot(config_file)
-    bot.run()
+    # Create bot instance - Konfiguration kommt aus .env
+    try:
+        bot = RaspberryPiTradingBot()
+        bot.run()
+    except Exception as e:
+        logger.error(f"Error starting bot: {e}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":

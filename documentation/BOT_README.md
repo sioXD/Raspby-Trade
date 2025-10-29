@@ -28,7 +28,8 @@ Ein vollautomatisierter Trading Bot, der auf Raspberry Pi läuft. Der Bot führt
 │   ├── notifier.py                # Benachrichtigungen (NEU)
 │   └── backtest.py                # Backtesting (NEU)
 ├── pi_bot_main.py                 # Bot Hauptprogramm (NEU)
-├── config.yaml                    # Konfiguration (NEU)
+├── .env                           # Umgebungsvariablen (Konfiguration)
+├── .env.example                   # Konfigurationsvorlage
 ├── RASPBERRY_PI_SETUP.md          # Setup-Anleitung (NEU)
 ├── requirements.txt               # Python Dependencies
 └── README.md                       # Diese Datei
@@ -82,7 +83,7 @@ cd BigDataProject-StockMarketTrendAnalysisAndPrediction
 python3 -m venv trading_env
 source trading_env/bin/activate
 pip install -r requirements.txt
-pip install alpaca-trade-api schedule pyyaml
+pip install alpaca-trade-api schedule
 ```
 
 ### Konfigurieren
@@ -92,10 +93,10 @@ pip install alpaca-trade-api schedule pyyaml
 export ALPACA_API_KEY="your_key_here"
 export ALPACA_SECRET_KEY="your_secret_here"
 
-# config.yaml bearbeiten
-nano config.yaml
+# Umgebungsvariablen bearbeiten
+nano .env
 
-# WICHTIG: use_paper_trading: true setzen!
+# WICHTIG: PAPER_TRADING=true setzen!
 ```
 
 ### Starten
@@ -287,15 +288,14 @@ ping 8.8.8.8
 ```
 
 ### Bot verbraucht zu viel RAM
-```yaml
-# In config.yaml:
-raspberry_pi:
-  lightweight_mode: true
+```bash
+# In .env:
+LIGHTWEIGHT_MODE=true
+CPU_ONLY=true
 
-model:
-  lstm:
-    units: 10      # Reduzieren
-    epochs: 1      # Reduzieren
+# Modell-Einstellungen:
+LSTM_UNITS=10      # Reduzieren
+LSTM_EPOCHS=1      # Reduzieren
 ```
 
 ### TensorFlow Error

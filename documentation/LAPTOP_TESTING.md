@@ -323,11 +323,11 @@ pip install tensorflow-lite
 
 3. **Konfiguration überprüfen**
    ```bash
-   nano config.yaml
+   nano .env
    # Stelle sicher:
-   # - use_paper_trading: true
-   # - symbols: gewünschte Aktien
-   # - risk_per_trade: 0.02 (2%)
+   # - PAPER_TRADING=true
+   # - TRADING_SYMBOLS=AAPL,MSFT,GOOGL (gewünschte Aktien)
+   # - RISK_PER_TRADE=2 (2%)
    ```
 
 4. **Backtesting durchführen**
@@ -350,7 +350,7 @@ pip install tensorflow-lite
 - [ ] `demo_bot.py` läuft ohne Fehler
 - [ ] Backtesting-Demo sieht sinnvoll aus
 - [ ] Risk-Szenarien verstanden
-- [ ] config.yaml konfiguriert
+- [ ] `.env` Datei konfiguriert
 - [ ] API Keys gesetzt (für echten Bot)
 - [ ] Bereit für Raspberry Pi Installation
 

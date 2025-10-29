@@ -155,8 +155,8 @@ pip install -r requirements.txt --force-reinstall
 pip uninstall tensorflow
 pip install tensorflow-lite
 
-# Oder im Code:
-# Reduziere LSTM Größe in config.yaml
+# Oder in .env:
+# Reduziere LSTM Größe: LSTM_UNITS=10, LSTM_EPOCHS=1
 ```
 
 ### Problem: Scripts starten nicht
@@ -296,7 +296,7 @@ sl = rm.calculate_stop_loss(entry, 0.10)  # 10% statt 5%
 | `LAPTOP_TESTING.md` | Dich jetzt | Detaillierte Test-Anleitung |
 | `BOT_README.md` | Bot-Nutzer | Bot Features & Nutzung |
 | `RASPBERRY_PI_SETUP.md` | Pi-User | Pi Installation |
-| `config.yaml` | Admin | Bot-Konfiguration |
+| `.env` | Admin | Bot-Konfiguration |
 
 ---
 
@@ -337,7 +337,7 @@ python pi_bot_main.py          # Nicht auf echtem Laptop!
 - [ ] `demo_bot.py` läuft ohne Fehler
 - [ ] Backtesting-Ergebnisse verstanden
 - [ ] Risk-Szenarien klar
-- [ ] `config.yaml` angesehen
+- [ ] `.env` Datei konfiguriert
 - [ ] Bereit für Raspberry Pi
 
 ---
@@ -347,7 +347,7 @@ python pi_bot_main.py          # Nicht auf echtem Laptop!
 Wenn alle Tests erfolgreich:
 
 1. Lese `BOT_README.md` für Bot-Features
-2. Konfiguriere `config.yaml` für deine Aktien
+2. Konfiguriere `.env` für deine Aktien
 3. Folge `RASPBERRY_PI_SETUP.md` für Pi-Installation
 4. Starte mit Paper Trading
 5. Nach 3 Monaten: Optional echte Trades

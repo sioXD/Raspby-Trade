@@ -114,8 +114,9 @@ BigDataProject-StockMarketTrendAnalysisAndPrediction/
 ├── 📄 pi_bot_main.py                   # Bot Main Entry Point
 ├── 📄 demo_bot.py                      # Interaktive Demos
 ├── 📄 test_bot_locally.py              # Test Suite
-├── 📄 config.yaml                  # Bot Konfiguration
-├── 📄 .env.example                 # ENV Template (NO SECRETS!)
+├── 📄 .env                         # Environment Variables (NICHT in Git!)
+├── 📄 .env.example                 # ENV Template
+├── 📄 ENV_SETUP.md                 # Konfigurationsanleitung
 ├── 📄 setup_env.py                 # Interaktiver ENV Setup
 ├── 📄 setup_env.bat                # Windows ENV Setup
 ├── 📄 requirements.txt             # Python Dependencies
@@ -303,27 +304,28 @@ Demos:
 
 ## 📊 Konfiguration
 
-Hauptkonfiguration in `config.yaml`:
+Alle Konfigurationen erfolgen via `.env`-Datei (Umgebungsvariablen):
 
-```yaml
-trading:
-  symbols: [AAPL, GOOGL, MSFT, AMZN]
-  use_paper_trading: true
-  min_confidence: 0.65
+```bash
+# Trading Konfiguration
+TRADING_SYMBOLS=AAPL,GOOGL,MSFT,AMZN
+PAPER_TRADING=true
+MIN_CONFIDENCE=0.65
+RISK_PER_TRADE=0.02
 
-risk:
-  account_balance: 100000
-  risk_per_trade: 0.02  # 2%
-  max_positions: 5
-  stop_loss_pct: 0.05   # 5%
-  take_profit_pct: 0.10 # 10%
+# Risk Management
+MAX_PORTFOLIO_VALUE=100000
+MAX_POSITIONS=5
+STOP_LOSS_PCT=0.05
+TAKE_PROFIT_PCT=0.10
+MAX_DAILY_LOSS_PCT=0.10
 
-schedule:
-  analysis_time: "09:30"        # US Market Open
-  risk_check_interval: 60       # Minutes
+# API Credentials
+ALPACA_API_KEY=your_key_here
+ALPACA_SECRET_KEY=your_secret_here
 ```
 
-Umgebungsvariablen können diese überschreiben. Siehe `ENV_SETUP.md`.
+Siehe [ENV_SETUP.md](ENV_SETUP.md) für vollständige Dokumentation.
 
 ---
 

@@ -23,7 +23,6 @@ alpaca-trade-api>=3.0.0
 
 # Configuration & Environment
 python-dotenv>=1.0.0
-pyyaml>=6.0.0
 
 # Utilities
 requests>=2.31.0

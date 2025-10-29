@@ -74,7 +74,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 
 # Zusätzliche Trading-Pakete
-pip install alpaca-trade-api schedule pyyaml
+pip install alpaca-trade-api schedule
 
 # Optional: Für Telegram/Email
 pip install python-telegram-bot
@@ -151,15 +151,15 @@ set +a
 ## Schritt 6: Bot Konfigurieren
 
 ```bash
-# Konfigurationsdatei bearbeiten
-nano config.yaml
+# Umgebungsvariablen-Datei bearbeiten
+nano .env
 
 # Wichtige Einstellungen:
-# - use_paper_trading: true (zuerst!)
-# - symbols: welche Aktien sollen gehandelt werden
-# - risk_per_trade: wie viel pro Trade riskieren (2% empfohlen)
-# - analysis_time: wann sollen Analysen laufen
-# - lightweight_mode: true (für Pi Zero/3)
+# - PAPER_TRADING=true (zuerst!)
+# - TRADING_SYMBOLS=AAPL,MSFT,GOOGL (welche Aktien sollen gehandelt werden)
+# - RISK_PER_TRADE=2 (wie viel pro Trade riskieren in %)
+# - ANALYSIS_TIME="09:30" (wann sollen Analysen laufen)
+# - LIGHTWEIGHT_MODE=true (für Pi Zero/3)
 ```
 
 ---
@@ -284,12 +284,11 @@ export TELEGRAM_CHAT_ID="123456789"
 ```bash
 # 1. 2-Faktor-Authentifizierung aktivieren
 # 2. App-Passwort generieren: https://myaccount.google.com/apppasswords
-# 3. In config.yaml:
+# 3. In .env:
 
-notifications:
-  email_enabled: true
-  email:
-    recipient: dein_email@gmail.com
+EMAIL_ENABLED=true
+EMAIL_RECIPIENT=dein_email@gmail.com
+EMAIL_PASSWORD=dein_app_passwort
 ```
 
 ---
@@ -335,20 +334,18 @@ ping 8.8.8.8
 
 ### Problem: "Bot verbraucht zu viel RAM"
 ```bash
-# In config.yaml:
-raspberry_pi:
-  lightweight_mode: true
-  cpu_only: true
-  
-model:
-  lstm:
-    units: 10  # Statt 25
-    epochs: 1  # Statt 5
+# In .env:
+LIGHTWEIGHT_MODE=true
+CPU_ONLY=true
+
+# Modell-Einstellungen in .env reduzieren:
+LSTM_UNITS=10  # Statt 25
+LSTM_EPOCHS=1  # Statt 5
 ```
 
 ### Problem: "Performance zu langsam"
 ```bash
-# 1. Weniger Symbole in config.yaml
+# 1. Weniger Symbole in .env (TRADING_SYMBOLS)
 # 2. Längere Check-Intervalle
 # 3. CPU Clock erhöhen (vorsicht: Wärme)
 sudo nano /boot/config.txt
