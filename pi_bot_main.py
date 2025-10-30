@@ -63,6 +63,8 @@ class RaspberryPiTradingBot:
         try:
             config = {
                 'trading': {
+                    'api_key': env_get('ALPACA_API_KEY'),
+                    'secret_key': env_get('ALPACA_SECRET_KEY'),
                     'symbols': env_get('TRADING_SYMBOLS', 'AAPL,GOOGL,MSFT,AMZN').split(','),
                     'use_paper_trading': env_get('PAPER_TRADING', 'true').lower() == 'true',
                     'min_confidence': float(env_get('MIN_CONFIDENCE', '0.65')),
